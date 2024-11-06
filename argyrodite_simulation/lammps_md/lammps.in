@@ -1,0 +1,33 @@
+units           metal
+box             tilt large                                       
+newton on
+
+read_data input.data
+                                       
+pair_style e3gnn
+pair_coeff * * ./deployed_serial.pt Cl Li P S
+
+mass 1 35.453
+mass 2 6.941
+mass 3 30.973762
+mass 4 32.065
+
+neigh_modify 	every 1 delay 0 check yes 
+
+timestep 0.002
+velocity all create 600.0 123
+
+dump 1 all custom 10 out.xyz id type element xu yu zu vx vy vz
+dump_modify 1 sort id
+dump_modify 1 element Cl Li P S
+thermo 10
+
+group li type 2
+compute mymsd li msd
+
+fix myprint all print 10 "$(step) $(temp) $(etotal/atoms) $(c_mymsd[4])" file 600.dat
+fix melt all nvt temp 600.0 600.0 0.2
+
+#10 ps
+run 5000
+write_data output.dat

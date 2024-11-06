@@ -1,0 +1,5 @@
+[MD_1200K]
+/data2/HD_kits/sevennet/data/train/1200K/OUTCAR 150:1000:10
+
+[MD_600K]
+/data2/HD_kits/sevennet/data/train/600K/OUTCAR 150:1000:10
